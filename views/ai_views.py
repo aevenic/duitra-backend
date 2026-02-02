@@ -140,17 +140,10 @@ def generate_insight(request):
             {"error": "Prompt is required"},
             status=status.HTTP_400_BAD_REQUEST,
         )
-
     try:
         response = model.generate_content(prompt)
         text = (response.text or "").strip()
-
-        # Guard: pastikan 1 kalimat
-        if "." in text:
-            text = text.split(".")[0].strip()
-
         return Response({"insight": text})
-
     except Exception:
         return Response(
             {"error": "AI service unavailable"},
